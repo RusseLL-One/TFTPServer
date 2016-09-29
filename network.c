@@ -60,10 +60,11 @@ int sendFile(int socket, struct sockaddr *clntAddr, char filename[MAX_FILE_NAME]
     packet.optcode = TFTP_OPTCODE_DATA;
     packet.data.blockNumber = 1;
 
-    pthread_mutex_lock(mutex);
     do {
         buffer = malloc(BUFSIZE);
+        pthread_mutex_lock(mutex);
         remainingData = fread(data, 1, MAX_DATA_SIZE, file);
+        pthread_mutex_unlock(mutex);
         strncpy(packet.data.data, data, MAX_DATA_SIZE);
         packet.data.dataSize = remainingData;
         bufferSize = SerializePacket(packet, buffer);
@@ -79,7 +80,6 @@ int sendFile(int socket, struct sockaddr *clntAddr, char filename[MAX_FILE_NAME]
         free(buffer);
     } while (remainingData == MAX_DATA_SIZE);
     printf("File \"%s\" sent!\n", filename);
-    pthread_mutex_unlock(mutex);
     return 0;
 }
 
