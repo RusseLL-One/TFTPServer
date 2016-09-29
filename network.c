@@ -73,7 +73,6 @@ int sendFile(int socket, struct sockaddr *clntAddr, char filename[MAX_FILE_NAME]
         }
         if (recvfrom(socket, buffer, BUFSIZE, 0, &recvAddr, &len) < 0) {
             perror("recvfrom()");
-            //continue;
         }
         printf("Bytes sent: %d, Block Number: %d\n", bufferSize, packet.data.blockNumber);
         packet.data.blockNumber++;

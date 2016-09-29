@@ -47,8 +47,6 @@ void *ClientHandler(void *thrStr) {
         printf("Client wants to put\n");
     }
 
-    //free(threadData->buffer);
-    //free(threadData->addrStr);
     free(threadData);
     free(packet);
     return (void *) 0;
